@@ -1,0 +1,30 @@
+{
+  "name": "pinterest-explore",
+  "version": "1.0.0",
+  "description": "explore travel integration",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanjana-venkat/pinterest-explore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sanjana-venkat/pinterest-explore/issues"
+  },
+  "homepage": "https://github.com/sanjana-venkat/pinterest-explore#readme",
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "gestalt": "^177.0.12",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "vite": "^8.1.3"
+  }
+}
