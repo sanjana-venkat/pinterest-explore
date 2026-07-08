@@ -125,7 +125,7 @@ img {
 
 .slide-card {
   flex: 0 0 auto;
-  height: 240px;
+  height: 320px;
   overflow-y: auto;
   background: var(--paper);
   border-radius: 24px;
