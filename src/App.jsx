@@ -355,6 +355,11 @@ const hawaiiPlanGroups = [
   { id: "pg-food", title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02")], h: 1.0 },
 ];
 
+// The bento layout is hard-coded (not generic masonry) so the hero tile can
+// CSS-stretch to exactly match the combined height of the two paired tiles.
+const hawaiiPlanHero = hawaiiPlanGroups.find((g) => g.id === "pg-vibes");
+const hawaiiPlanPairs = hawaiiPlanGroups.filter((g) => g.id !== "pg-vibes");
+
 // "Booked your hotel yet?" cards in the planned view.
 const hawaiiHotels = [
   { id: "ht1", image: img("hawaii_01") },
@@ -885,12 +890,24 @@ function BoardView({ board, onBack, onOpenPin }) {
               </button>
             </div>
 
-            <div className="feed-wrap plan-groups-wrap">
-              <Masonry
-                pins={hawaiiPlanGroups}
-                gap={16}
-                renderPin={(g) => <PlanCollage key={g.id} group={g} onOpen={() => {}} />}
-              />
+            <div className="plan-bento">
+              <div className="plan-bento-hero">
+                <button className="plan-collage plan-collage-hero" onClick={() => {}} aria-label={hawaiiPlanHero.title}>
+                  <div className="plan-collage-row">
+                    <img src={hawaiiPlanHero.images[0]} alt="" />
+                    <img src={hawaiiPlanHero.images[1]} alt="" />
+                  </div>
+                  <div className="plan-collage-row plan-collage-row-grow">
+                    <img src={hawaiiPlanHero.images[2]} alt="" />
+                  </div>
+                </button>
+                <span className="plan-group-title">{hawaiiPlanHero.title}</span>
+              </div>
+              <div className="plan-bento-pairs">
+                {hawaiiPlanPairs.map((g) => (
+                  <PlanCollage key={g.id} group={g} onOpen={() => {}} />
+                ))}
+              </div>
             </div>
 
             <h2 className="plan-section-title">Booked your hotel yet?</h2>
@@ -930,24 +947,36 @@ function BoardView({ board, onBack, onOpenPin }) {
 
       <div className="action-bar">
         {board.plannable ? (
-          <button className="action-item" onClick={runPlan}>
-            <WandSparkles size={21} />
-            <span>Plan it</span>
-          </button>
+          <>
+            <button className="action-item" onClick={runPlan}>
+              <WandSparkles size={21} />
+              <span>Plan it</span>
+            </button>
+            <button className="action-item">
+              <Plus size={21} />
+              <span>Add</span>
+            </button>
+          </>
         ) : (
-          <button className="action-item">
-            <Organize size={21} />
-            <span>Organize</span>
-          </button>
+          <>
+            <button className="action-item">
+              <Organize size={21} />
+              <span>Organize</span>
+            </button>
+            <button className="action-item">
+              <Plus size={21} />
+              <span>Add</span>
+            </button>
+            <button className="action-item">
+              <Sparkle size={21} />
+              <span>More ideas</span>
+            </button>
+            <button className="action-item">
+              <Tag size={21} />
+              <span>Shop</span>
+            </button>
+          </>
         )}
-        <button className="action-item">
-          <Plus size={21} />
-          <span>Add</span>
-        </button>
-        <button className="action-item">
-          <Tag size={21} />
-          <span>Shop</span>
-        </button>
       </div>
 
       {bursting && <span className="magic-burst" />}
