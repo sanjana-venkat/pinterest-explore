@@ -109,15 +109,6 @@ const ArrowUpRight = (p) => (
   </Svg>
 );
 
-// lucide "pin" — used for the save affordance and the bottom-right mark on
-// every feed tile (previously an ellipsis, which read as a comment icon).
-const PinMark = (p) => (
-  <Svg {...p}>
-    <path d="M12 17v5" />
-    <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" />
-  </Svg>
-);
-
 // lucide "tag" — the Shop action.
 const Tag = (p) => (
   <Svg {...p}>
@@ -146,10 +137,15 @@ const Organize = (p) => (
 );
 
 // lucide "house" — bottom nav Home, filled solid when active.
+// Shared "house" shape — the original design with a curved door swoosh,
+// used both for the bottom-nav Home icon and the story-row Home avatar.
+const HOUSE_PATH = "M12 3.2 3.8 9.9c-.5.4-.8 1-.8 1.7v7c0 1.2 1 2.2 2.2 2.2h13.6c1.2 0 2.2-1 2.2-2.2v-7c0-.7-.3-1.3-.8-1.7L12 3.2Z";
+const HOUSE_CURVE = "M8.2 15.4c.9 1.2 2.2 1.9 3.8 1.9s2.9-.7 3.8-1.9";
+
 const NavHome = ({ active, ...p }) => (
-  <Svg {...p} stroke={active ? "none" : "currentColor"} fill={active ? "currentColor" : "none"}>
-    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" stroke={active ? "#fff" : "currentColor"} fill="none" strokeWidth="2" />
-    <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+  <Svg {...p}>
+    <path d={HOUSE_PATH} fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth={active ? 0 : 2.1} strokeLinejoin="round" />
+    {active && <path d={HOUSE_CURVE} stroke="#fff" strokeWidth="1.9" strokeLinecap="round" fill="none" />}
   </Svg>
 );
 
@@ -169,16 +165,12 @@ const NavPerson = (p) => (
   </Svg>
 );
 
-// Custom mark for the "Home" board-story tile (not the wordmark) — a
-// house-shaped pin, matching what the recording shows at the head of the
-// stories row.
+// "Home" board-story avatar — same house shape as the nav icon, always
+// filled red with the white door swoosh, matching the recording.
 const PinterestHomeGlyph = (p) => (
-  <Svg {...p} viewBox="0 0 48 48" stroke="none" fill="none">
-    <path
-      d="M24 6C13.5 6 6 13.3 6 22.4c0 6 3.1 11 8.2 13.9V42h19.6v-5.7C38.9 33.4 42 28.4 42 22.4 42 13.3 34.5 6 24 6Z"
-      fill="#e60023"
-    />
-    <path d="M17 27.5c1.8 2.3 4.2 3.6 7 3.6s5.2-1.3 7-3.6" stroke="#fff" strokeWidth="3" strokeLinecap="round" fill="none" />
+  <Svg {...p} stroke="none" fill="none">
+    <path d={HOUSE_PATH} fill="#e60023" />
+    <path d={HOUSE_CURVE} stroke="#fff" strokeWidth="1.9" strokeLinecap="round" fill="none" />
   </Svg>
 );
 
@@ -196,6 +188,22 @@ const PinterestLogo = ({ size = 28 }) => (
 const Star = (p) => (
   <Svg {...p}>
     <path d="m12 3.6 2.5 5.4 5.9.6-4.4 4 1.2 5.8L12 16.5l-5.2 2.9L8 13.6l-4.4-4 5.9-.6L12 3.6Z" strokeLinejoin="round" />
+  </Svg>
+);
+
+// lucide "trash-2" and "rotate-ccw" — deck management controls.
+const Trash = (p) => (
+  <Svg {...p}>
+    <path d="M10 11v6M14 11v6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+    <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </Svg>
+);
+
+const Reset = (p) => (
+  <Svg {...p}>
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+    <path d="M3 3v5h5" />
   </Svg>
 );
 
@@ -427,7 +435,7 @@ function FeedPin({ pin, onOpen }) {
         <img src={pin.image} alt="" style={{ aspectRatio: `1 / ${pin.h}` }} loading="lazy" />
       </button>
       <div className="pin-meta-row">
-        <PinMark size={17} />
+        <Ellipsis size={16} />
       </div>
     </div>
   );
@@ -456,7 +464,7 @@ function IdeaPin({ pin, onOpen }) {
           <img src={pin.image} alt="" style={{ aspectRatio: `1 / ${pin.h}` }} loading="lazy" />
           {pin.deal && <span className="deal-chip">{pin.deal}</span>}
           <span className="save-fab">
-            <PinMark size={16} />
+            <Ellipsis size={15} />
           </span>
         </button>
         {sp && (
@@ -476,11 +484,6 @@ function IdeaPin({ pin, onOpen }) {
           <span className="idea-sponsored">Sponsored</span>
         </div>
       )}
-      {!sp && (
-        <div className="pin-meta-row">
-          <PinMark size={17} />
-        </div>
-      )}
     </div>
   );
 }
@@ -491,7 +494,7 @@ function ShopCard({ item, onOpen }) {
       <button className="pin-img-btn" onClick={() => onOpen(item)} aria-label={item.title}>
         <img src={item.image} alt="" style={{ aspectRatio: `1 / ${item.h}` }} loading="lazy" />
         <span className="save-fab">
-          <PinMark size={16} />
+          <Ellipsis size={15} />
         </span>
       </button>
       <div className="shop-caption">
@@ -527,7 +530,7 @@ function Story({ story, active, onTap }) {
   return (
     <button className="story" onClick={() => onTap(story)}>
       <span className={`story-tile ${story.type === "home" ? "story-home" : ""}`}>
-        {story.type === "home" ? <PinterestHomeGlyph size={38} /> : <img src={story.image} alt="" />}
+        {story.type === "home" ? <PinterestHomeGlyph size={34} /> : <img src={story.image} alt="" />}
       </span>
       <span className={`story-label ${active ? "active" : ""}`}>{story.label}</span>
     </button>
@@ -789,12 +792,9 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
                 <button className="pin-img-btn" onClick={() => onOpenPin(r)} aria-label="Open related pin">
                   <img src={r.image} alt="" style={{ aspectRatio: `1 / ${r.h}` }} loading="lazy" />
                   <span className="save-fab">
-                    <PinMark size={16} />
+                    <Ellipsis size={15} />
                   </span>
                 </button>
-                <div className="pin-meta-row">
-                  <PinMark size={17} />
-                </div>
               </div>
             )}
           />
@@ -1053,19 +1053,17 @@ function Deck({ onScreenChange }) {
           </button>
         </div>
         <div className="deck-manage">
-          <button className="deck-btn ghost" onClick={addSlide}>
-            Add slide
+          <button className="deck-icon-btn" onClick={addSlide} aria-label="Add slide" title="Add slide">
+            <Plus size={19} />
           </button>
-          <button className="deck-btn ghost" onClick={deleteSlide} disabled={slides.length <= 1}>
-            Delete
+          <button className="deck-icon-btn" onClick={deleteSlide} disabled={slides.length <= 1} aria-label="Delete slide" title="Delete slide">
+            <Trash size={19} />
           </button>
-          <button className="deck-btn ghost" onClick={resetDeck}>
-            Reset
+          <button className="deck-icon-btn" onClick={resetDeck} aria-label="Reset deck" title="Reset deck">
+            <Reset size={19} />
           </button>
         </div>
       </div>
-
-      <p className="deck-hint">Click any text to edit. Slides autosave in this browser. Arrow keys move between slides.</p>
     </section>
   );
 }
