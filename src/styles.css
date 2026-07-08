@@ -1270,7 +1270,7 @@ img {
    wider photo below. The bottom row is taller so the tile reads as a proper
    bento hero and lines up visually with the two stacked pairs beside it. */
 .plan-collage-row.plan-collage-row-grow {
-  height: 150px;
+  height: 118px;
 }
 
 .plan-collage-row img {
