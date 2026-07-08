@@ -1311,8 +1311,6 @@ function Deck({ onScreenChange }) {
   const goTo = (i) => {
     const next = Math.max(0, Math.min(slides.length - 1, i));
     setIndex(next);
-    const target = slides[next]?.screen;
-    if (target) onScreenChange(target);
   };
 
   const patch = (partial) => setSlides((prev) => prev.map((s, i) => (i === index ? { ...s, ...partial } : s)));
