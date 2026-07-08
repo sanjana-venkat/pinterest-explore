@@ -2,189 +2,201 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 /* ============================================================================
    ICONS
-   Small inline SVG set in Pinterest's visual language. Each takes { size }.
+   Sourced from lucide (ISC license) and the official Pinterest brand mark
+   (simple-icons, CC0), redrawn as plain inline SVG so there's no dependency.
    ============================================================================ */
 
-const Svg = ({ size = 24, children, viewBox = "0 0 24 24" }) => (
-  <svg width={size} height={size} viewBox={viewBox} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+const Svg = ({ size = 24, children, viewBox = "0 0 24 24", stroke = "currentColor", fill = "none" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox={viewBox}
+    fill={fill}
+    stroke={stroke}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
     {children}
   </svg>
 );
 
 const ChevronLeft = (p) => (
   <Svg {...p}>
-    <path d="M15 4.5 7.5 12l7.5 7.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M15 4.5 7.5 12l7.5 7.5" />
   </Svg>
 );
 
 const Plus = (p) => (
   <Svg {...p}>
-    <path d="M12 4.5v15M4.5 12h15" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+    <path d="M5 12h14M12 5v14" />
   </Svg>
 );
 
 const Ellipsis = (p) => (
-  <Svg {...p}>
-    <circle cx="5" cy="12" r="1.9" fill="currentColor" />
-    <circle cx="12" cy="12" r="1.9" fill="currentColor" />
-    <circle cx="19" cy="12" r="1.9" fill="currentColor" />
+  <Svg {...p} stroke="none" fill="currentColor">
+    <circle cx="5" cy="12" r="1.9" />
+    <circle cx="12" cy="12" r="1.9" />
+    <circle cx="19" cy="12" r="1.9" />
   </Svg>
 );
 
 const Close = (p) => (
   <Svg {...p}>
-    <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+    <path d="M6 6l12 12M18 6 6 18" />
   </Svg>
 );
 
 const PersonAdd = (p) => (
   <Svg {...p}>
-    <circle cx="10" cy="8" r="3.6" stroke="currentColor" strokeWidth="2" />
-    <path d="M4 19.5c.7-3.2 3.1-5 6-5s5.3 1.8 6 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <path d="M18.5 8.5v5M16 11h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="10" cy="8" r="3.6" />
+    <path d="M4 19.5c.7-3.2 3.1-5 6-5s5.3 1.8 6 5" />
+    <path d="M18.5 8.5v5M16 11h5" />
   </Svg>
 );
 
 const Share = (p) => (
   <Svg {...p}>
-    <circle cx="17.5" cy="5.5" r="2.6" stroke="currentColor" strokeWidth="2" />
-    <circle cx="6" cy="12" r="2.6" stroke="currentColor" strokeWidth="2" />
-    <circle cx="17.5" cy="18.5" r="2.6" stroke="currentColor" strokeWidth="2" />
-    <path d="M8.4 10.7 15 6.8M8.4 13.3l6.6 3.9" stroke="currentColor" strokeWidth="2" />
+    <circle cx="17.5" cy="5.5" r="2.6" />
+    <circle cx="6" cy="12" r="2.6" />
+    <circle cx="17.5" cy="18.5" r="2.6" />
+    <path d="M8.4 10.7 15 6.8M8.4 13.3l6.6 3.9" />
   </Svg>
 );
 
 const Chat = (p) => (
   <Svg {...p}>
-    <path
-      d="M12 3.5c-4.9 0-8.75 3.4-8.75 7.7 0 2.4 1.2 4.5 3.1 5.9l-.75 3.4 3.6-1.6c.88.25 1.82.4 2.8.4 4.9 0 8.75-3.5 8.75-8S16.9 3.5 12 3.5Z"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinejoin="round"
-    />
-    <circle cx="8.4" cy="11.2" r="1.15" fill="currentColor" />
-    <circle cx="12" cy="11.2" r="1.15" fill="currentColor" />
-    <circle cx="15.6" cy="11.2" r="1.15" fill="currentColor" />
+    <path d="M12 3.5c-4.9 0-8.75 3.4-8.75 7.7 0 2.4 1.2 4.5 3.1 5.9l-.75 3.4 3.6-1.6c.88.25 1.82.4 2.8.4 4.9 0 8.75-3.5 8.75-8S16.9 3.5 12 3.5Z" strokeLinejoin="round" />
+    <circle cx="8.4" cy="11.2" r="1.05" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="11.2" r="1.05" fill="currentColor" stroke="none" />
+    <circle cx="15.6" cy="11.2" r="1.05" fill="currentColor" stroke="none" />
   </Svg>
 );
 
 const SortArrows = (p) => (
   <Svg {...p}>
-    <path d="M8 5v13M8 5 4.8 8.4M8 5l3.2 3.4" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M16 19V6M16 19l-3.2-3.4M16 19l3.2-3.4" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 5v13M8 5 4.8 8.4M8 5l3.2 3.4" />
+    <path d="M16 19V6M16 19l-3.2-3.4M16 19l3.2-3.4" />
   </Svg>
 );
 
 const Sliders = (p) => (
   <Svg {...p}>
-    <path d="M3.5 8h17M3.5 16h17" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" />
-    <circle cx="15" cy="8" r="2.6" fill="#fff" stroke="currentColor" strokeWidth="2.1" />
-    <circle cx="9" cy="16" r="2.6" fill="#fff" stroke="currentColor" strokeWidth="2.1" />
+    <path d="M3.5 8h17M3.5 16h17" />
+    <circle cx="15" cy="8" r="2.5" fill="#fff" />
+    <circle cx="9" cy="16" r="2.5" fill="#fff" />
   </Svg>
 );
 
 const Globe = (p) => (
   <Svg {...p}>
-    <circle cx="12" cy="12" r="8.4" stroke="currentColor" strokeWidth="1.9" />
-    <path d="M3.6 12h16.8M12 3.6c2.5 2.3 3.7 5.1 3.7 8.4s-1.2 6.1-3.7 8.4c-2.5-2.3-3.7-5.1-3.7-8.4s1.2-6.1 3.7-8.4Z" stroke="currentColor" strokeWidth="1.9" />
+    <circle cx="12" cy="12" r="8.4" />
+    <path d="M3.6 12h16.8M12 3.6c2.5 2.3 3.7 5.1 3.7 8.4s-1.2 6.1-3.7 8.4c-2.5-2.3-3.7-5.1-3.7-8.4s1.2-6.1 3.7-8.4Z" />
   </Svg>
 );
 
 const ArrowRight = (p) => (
   <Svg {...p}>
-    <path d="M4.5 12h15M13.5 6l6 6-6 6" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4.5 12h15M13.5 6l6 6-6 6" />
   </Svg>
 );
 
 const ArrowUpRight = (p) => (
   <Svg {...p}>
-    <path d="M6.5 17.5 17.5 6.5M8.5 6.5h9v9" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6.5 17.5 17.5 6.5M8.5 6.5h9v9" />
   </Svg>
 );
 
-const SavePin = (p) => (
+// lucide "pin" — used for the save affordance and the bottom-right mark on
+// every feed tile (previously an ellipsis, which read as a comment icon).
+const PinMark = (p) => (
   <Svg {...p}>
-    <path
-      d="M12 2.8c-3.8 0-6.6 2.8-6.6 6.2 0 2.6 1.5 4.6 3.7 5.5-.05.5-.3 1.7-.9 3.4-.1.3 0 .5.3.4 2-1 3.1-2.6 3.5-3.5h.2c3.6-.1 6.4-2.7 6.4-5.8 0-3.4-2.8-6.2-6.6-6.2Z"
-      fill="currentColor"
-      transform="rotate(38 12 12)"
-    />
+    <path d="M12 17v5" />
+    <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" />
   </Svg>
 );
 
+// lucide "tag" — the Shop action.
 const Tag = (p) => (
   <Svg {...p}>
-    <path
-      d="M13.2 3.5H19a1.5 1.5 0 0 1 1.5 1.5v5.8a2 2 0 0 1-.59 1.42l-8 8a2 2 0 0 1-2.82 0l-4.3-4.3a2 2 0 0 1 0-2.82l8-8a2 2 0 0 1 1.41-.6Z"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinejoin="round"
-    />
-    <circle cx="16.4" cy="7.6" r="1.4" fill="currentColor" />
+    <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+    <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
   </Svg>
 );
 
+// lucide "sparkles" — the More ideas action.
 const Sparkle = (p) => (
   <Svg {...p}>
-    <path d="M13.5 3.5 15 8.6l5.1 1.5-5.1 1.5-1.5 5.1-1.5-5.1-5.1-1.5L13.5 8.6l1.5-5.1Z" fill="currentColor" transform="translate(-1.5 1)" />
-    <path d="M18.7 14.4l.8 2.4 2.4.8-2.4.8-.8 2.4-.8-2.4-2.4-.8 2.4-.8.8-2.4Z" fill="currentColor" />
+    <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+    <path d="M20 2v4M22 4h-4" />
+    <circle cx="4" cy="20" r="1.6" fill="currentColor" stroke="none" />
   </Svg>
 );
 
+// lucide "brush-cleaning" — the Organize action (was an abstract blob before).
 const Organize = (p) => (
   <Svg {...p}>
-    <path
-      d="M9.5 20.5c-1.9-.5-3.4-2-4-4l-1.6-5c-.2-.7.2-1.4.9-1.6.7-.2 1.4.2 1.6.9l.8 2.4.2-8.2c0-.7.6-1.3 1.3-1.3s1.3.6 1.3 1.3l.1 5 .3-5.8c0-.7.6-1.3 1.3-1.2.7 0 1.3.6 1.2 1.3l-.2 5.9 1-4.6c.2-.7.8-1.2 1.5-1 .7.1 1.2.8 1 1.5l-1 5.2 1.3-2.2c.4-.6 1.2-.8 1.8-.4.6.4.8 1.1.5 1.8l-2.4 5.5c-1.1 2.5-3.9 4-6.9 3.5Z"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinejoin="round"
-    />
-    <path d="M17.5 2.6l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5.5-1.5Z" fill="currentColor" />
+    <path d="m16 22-1-4" />
+    <path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1" />
+    <path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z" />
+    <path d="m8 22 1-4" />
   </Svg>
 );
 
+// lucide "house" — bottom nav Home, filled solid when active.
 const NavHome = ({ active, ...p }) => (
-  <Svg {...p}>
-    <path
-      d="M12 3.2 3.8 9.9c-.5.4-.8 1-.8 1.7v7c0 1.2 1 2.2 2.2 2.2h13.6c1.2 0 2.2-1 2.2-2.2v-7c0-.7-.3-1.3-.8-1.7L12 3.2Z"
-      fill={active ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth={active ? 0 : 2.1}
-      strokeLinejoin="round"
-    />
-    {active && <path d="M8.2 15.4c.9 1.2 2.2 1.9 3.8 1.9s2.9-.7 3.8-1.9" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" />}
+  <Svg {...p} stroke={active ? "none" : "currentColor"} fill={active ? "currentColor" : "none"}>
+    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" stroke={active ? "#fff" : "currentColor"} fill="none" strokeWidth="2" />
+    <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
   </Svg>
 );
 
+// lucide "search" — bottom nav Search.
 const NavSearch = (p) => (
   <Svg {...p}>
-    <circle cx="10.8" cy="10.8" r="6.4" stroke="currentColor" strokeWidth="2.3" />
-    <path d="m15.6 15.6 4.9 4.9" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" />
+    <path d="m21 21-4.34-4.34" />
+    <circle cx="11" cy="11" r="8" />
   </Svg>
 );
 
+// lucide "user-round" — bottom nav Profile.
 const NavPerson = (p) => (
   <Svg {...p}>
-    <circle cx="12" cy="8.2" r="4" stroke="currentColor" strokeWidth="2.2" />
-    <path d="M4.6 20.4c1-3.6 3.9-5.6 7.4-5.6s6.4 2 7.4 5.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+    <circle cx="12" cy="8" r="5" />
+    <path d="M20 21a8 8 0 0 0-16 0" />
   </Svg>
 );
 
+// Custom mark for the "Home" board-story tile (not the wordmark) — a
+// house-shaped pin, matching what the recording shows at the head of the
+// stories row.
 const PinterestHomeGlyph = (p) => (
-  <Svg {...p} viewBox="0 0 48 48">
-    <path d="M24 6C13.5 6 6 13.3 6 22.4c0 6 3.1 11 8.2 13.9V42h19.6v-5.7C38.9 33.4 42 28.4 42 22.4 42 13.3 34.5 6 24 6Z" fill="#e60023" />
+  <Svg {...p} viewBox="0 0 48 48" stroke="none" fill="none">
+    <path
+      d="M24 6C13.5 6 6 13.3 6 22.4c0 6 3.1 11 8.2 13.9V42h19.6v-5.7C38.9 33.4 42 28.4 42 22.4 42 13.3 34.5 6 24 6Z"
+      fill="#e60023"
+    />
     <path d="M17 27.5c1.8 2.3 4.2 3.6 7 3.6s5.2-1.3 7-3.6" stroke="#fff" strokeWidth="3" strokeLinecap="round" fill="none" />
   </Svg>
 );
 
+// Official Pinterest "P" logomark (simple-icons, CC0) on the brand-red disc.
 const PinterestLogo = ({ size = 28 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <circle cx="12" cy="12" r="12" fill="#e60023" />
     <path
-      d="M12.2 5.2c-3.8 0-5.9 2.5-5.9 5.2 0 1.3.7 2.9 1.8 3.4.3.1.4 0 .5-.2l.4-1.4c0-.1 0-.3-.1-.4-.4-.5-.7-1.3-.7-2.1 0-2 1.6-4 4.2-4 2.3 0 3.9 1.5 3.9 3.7 0 2.5-1.3 4.2-3 4.2-.9 0-1.6-.7-1.4-1.7.3-1.1.8-2.3.8-3.1 0-.7-.4-1.3-1.2-1.3-1 0-1.7 1-1.7 2.3 0 .8.3 1.4.3 1.4l-1.1 4.7c-.3 1.4 0 3.4.1 3.6 0 .1.2.2.3 0 .1-.2 1.5-2.2 1.9-3.7l.5-2c.3.6 1.2 1.1 2.1 1.1 2.8 0 4.9-2.6 4.9-6 0-3.1-2.7-5.7-6.6-5.7Z"
       fill="#fff"
+      d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"
     />
   </svg>
+);
+
+const Star = (p) => (
+  <Svg {...p}>
+    <path d="m12 3.6 2.5 5.4 5.9.6-4.4 4 1.2 5.8L12 16.5l-5.2 2.9L8 13.6l-4.4-4 5.9-.6L12 3.6Z" strokeLinejoin="round" />
+  </Svg>
 );
 
 /* ============================================================================
@@ -195,16 +207,27 @@ const PinterestLogo = ({ size = 28 }) => (
 
 const img = (name) => `/${name}.jpg`;
 
+// Board stories on the home feed. "hawaii" and "homeee" are real boards
+// (see boardsById below); the rest are decorative, matching the recording.
 const stories = [
   { id: "home", label: "Home", type: "home" },
+  { id: "hawaii", label: "hawaii", image: img("real_01") },
   { id: "test", label: "test", image: img("clean_10") },
   { id: "abi", label: "abi", image: img("clean_14") },
   { id: "homeee", label: "homeee", image: img("clean_05") },
   { id: "mehendi", label: "mehendi", image: img("clean_07") },
 ];
 
-const landingTabs = ["Home", "test", "abi", "homeee", "mehendi", "blouse"];
+const FILLER_TABS = ["test", "abi", "mehendi", "blouse"];
 
+// The tab strip on the board landing page always keeps the active board
+// visible alongside the filler tabs seen in the recording.
+function landingTabsFor(boardId) {
+  if (boardId === "hawaii") return ["Home", "hawaii", "test", "abi", "homeee", "mehendi", "blouse"];
+  return ["Home", "test", "abi", "homeee", "mehendi", "blouse"];
+}
+
+// Regular pins in the home feed.
 const homePins = [
   { id: "h1", image: img("clean_04"), h: 1.32 },
   { id: "h2", image: img("clean_03"), h: 1.28 },
@@ -217,6 +240,33 @@ const homePins = [
   { id: "h9", image: img("clean_06"), h: 1.05 },
   { id: "h10", image: img("clean_01"), h: 1.3 },
 ];
+
+// Sponsored "Shop now" tiles woven into the home feed, mirroring the
+// Amazon/Target sponsored cards seen throughout the recording.
+const homeShopTiles = [
+  { id: "hs1", image: img("clean_11"), h: 1.5, sponsored: { brand: "Wayfair", title: "Refresh your living room", cta: "Shop now" } },
+  { id: "hs2", image: img("clean_14"), h: 1.28, sponsored: { brand: "Etsy", title: "Handmade for your home", cta: "Shop now" } },
+];
+
+// Interleave the two sponsored tiles into the feed at fixed positions.
+const homeFeedItems = [
+  homePins[0],
+  homePins[1],
+  homeShopTiles[0],
+  homePins[2],
+  homePins[3],
+  homePins[4],
+  homeShopTiles[1],
+  homePins[5],
+  homePins[6],
+  homePins[7],
+  homePins[8],
+  homePins[9],
+];
+
+// ----------------------------------------------------------------------------
+// Boards
+// ----------------------------------------------------------------------------
 
 const homeeeBoard = {
   id: "homeee",
@@ -239,45 +289,6 @@ const homeeeBoard = {
   ],
 };
 
-const yourSaves = homeeeBoard.pins.slice(0, 5);
-
-const moreIdeas = [
-  { id: "m1", image: img("clean_14"), h: 1.34, sponsored: { brand: "Amazon", title: "Shop our creators' picks", cta: "Shop now" } },
-  { id: "m2", image: img("clean_11"), h: 1.52, sponsored: { brand: "Target", title: "Fall Desk Decor", cta: "Learn more" } },
-  { id: "m3", image: img("clean_15"), h: 1.18, deal: "Deal", brandOverlay: "LU AND GEORGIA" },
-  { id: "m4", image: img("clean_09"), h: 1.3, tags: ["Arched alcove", "Colorful cushions"] },
-  { id: "m5", image: img("clean_12"), h: 1.08 },
-  { id: "m6", image: img("clean_13"), h: 1.02 },
-  { id: "m7", image: img("clean_16"), h: 1.38 },
-  { id: "m8", image: img("clean_02"), h: 0.9 },
-];
-
-const shopItems = [
-  { id: "s1", image: img("clean_11"), title: "Rust velvet accent chair", brand: "Target", price: "$249", h: 1.3 },
-  { id: "s2", image: img("clean_14"), title: "Reclaimed oak coffee table", brand: "Artisan Blooms", price: "$189", h: 1.24 },
-  { id: "s3", image: img("clean_06"), title: "Rattan drum pendant", brand: "West Elm", price: "$79", h: 1.02 },
-  { id: "s4", image: img("clean_16"), title: "Hand-painted planter set", brand: "Etsy", price: "$45", h: 1.36 },
-  { id: "s5", image: img("clean_08"), title: "Heirloom Moroccan rug", brand: "Revival", price: "$320", h: 1.1 },
-  { id: "s6", image: img("clean_13"), title: "Block-print cushion covers", brand: "Fabindia", price: "$28", h: 1.0 },
-];
-
-const relatedPool = [
-  { id: "r1", image: img("clean_09"), h: 1.3 },
-  { id: "r2", image: img("clean_13"), h: 1.04 },
-  { id: "r3", image: img("clean_12"), h: 1.1 },
-  { id: "r4", image: img("clean_16"), h: 1.38 },
-  { id: "r5", image: img("clean_02"), h: 0.9 },
-  { id: "r6", image: img("clean_08"), h: 1.12 },
-  { id: "r7", image: img("clean_05"), h: 1.4 },
-  { id: "r8", image: img("clean_01"), h: 1.34 },
-];
-
-function relatedFor(pin) {
-  return relatedPool.filter((r) => r.image !== pin.image).slice(0, 6);
-}
-
-// Staged for the "contextual board actions" enhancement (build itinerary /
-// find hotels / plan outfits) — not wired into a screen yet.
 const hawaiiBoard = {
   id: "hawaii",
   title: "hawaii",
@@ -296,21 +307,84 @@ const hawaiiBoard = {
   ],
 };
 
+const boardsById = { homeee: homeeeBoard, hawaii: hawaiiBoard };
+
+// "More ideas for this board" — deal tile now carries a real sponsored
+// footer instead of overlapping text baked into the image.
+const homeeeIdeas = [
+  { id: "m1", image: img("clean_14"), h: 1.34, sponsored: { brand: "Amazon", title: "Shop our creators' picks", cta: "Shop now" } },
+  { id: "m2", image: img("clean_11"), h: 1.52, sponsored: { brand: "Target", title: "Fall Desk Decor", cta: "Learn more" } },
+  { id: "m3", image: img("clean_15"), h: 1.18, deal: "Deal", sponsored: { brand: "Lulu and Georgia", title: "Living for soft hues", cta: "Up to 50% off" } },
+  { id: "m4", image: img("clean_09"), h: 1.3, tags: ["Arched alcove", "Colorful cushions"] },
+  { id: "m5", image: img("clean_12"), h: 1.08 },
+  { id: "m6", image: img("clean_13"), h: 1.02 },
+  { id: "m7", image: img("clean_16"), h: 1.38 },
+  { id: "m8", image: img("clean_02"), h: 0.9 },
+];
+
+// Hawaii's ideas rail reuses the "MGM Rewards — Book now" sponsored moment
+// from the recording, now with real Hawaii imagery.
+const hawaiiIdeas = [
+  { id: "hi1", image: img("hawaii_05"), h: 1.3, sponsored: { brand: "MGM Rewards", title: "A summer worth savoring", cta: "Book now" } },
+  { id: "hi2", image: img("hawaii_02"), h: 1.5 },
+  { id: "hi3", image: img("real_02"), h: 1.05 },
+  { id: "hi4", image: img("hawaii_06"), h: 1.22 },
+];
+
+function ideasFor(boardId) {
+  return boardId === "hawaii" ? hawaiiIdeas : homeeeIdeas;
+}
+
+const homeeeShop = [
+  { id: "s1", image: img("clean_11"), title: "Rust velvet accent chair", brand: "Target", price: "$249", h: 1.3 },
+  { id: "s2", image: img("clean_14"), title: "Reclaimed oak coffee table", brand: "Artisan Blooms", price: "$189", h: 1.24 },
+  { id: "s3", image: img("clean_06"), title: "Rattan drum pendant", brand: "West Elm", price: "$79", h: 1.02 },
+  { id: "s4", image: img("clean_16"), title: "Hand-painted planter set", brand: "Etsy", price: "$45", h: 1.36 },
+  { id: "s5", image: img("clean_08"), title: "Heirloom Moroccan rug", brand: "Revival", price: "$320", h: 1.1 },
+  { id: "s6", image: img("clean_13"), title: "Block-print cushion covers", brand: "Fabindia", price: "$28", h: 1.0 },
+];
+
+const hawaiiShop = [
+  { id: "hs-t1", image: img("hawaii_04"), title: "Woven beach tote", brand: "Anthropologie", price: "$68", h: 1.2 },
+  { id: "hs-t2", image: img("real_03"), title: "Quick-dry travel towel", brand: "REI", price: "$34", h: 1.35 },
+  { id: "hs-t3", image: img("hawaii_01"), title: "Snorkel mask set", brand: "Amazon", price: "$29", h: 1.05 },
+  { id: "hs-t4", image: img("hawaii_03"), title: "Wide-brim sun hat", brand: "Lack of Color", price: "$79", h: 1.15 },
+];
+
+function shopFor(boardId) {
+  return boardId === "hawaii" ? hawaiiShop : homeeeShop;
+}
+
+const relatedPool = [
+  { id: "r1", image: img("clean_09"), h: 1.3 },
+  { id: "r2", image: img("clean_13"), h: 1.04 },
+  { id: "r3", image: img("clean_12"), h: 1.1 },
+  { id: "r4", image: img("clean_16"), h: 1.38 },
+  { id: "r5", image: img("clean_02"), h: 0.9 },
+  { id: "r6", image: img("clean_08"), h: 1.12 },
+  { id: "r7", image: img("clean_05"), h: 1.4 },
+  { id: "r8", image: img("clean_01"), h: 1.34 },
+];
+
+function relatedFor(pin) {
+  return relatedPool.filter((r) => r.image !== pin.image).slice(0, 6);
+}
+
 /* ============================================================================
    SHARED PHONE COMPONENTS
    ============================================================================ */
 
-function StatusBar({ light = false }) {
+function StatusBar() {
   return (
-    <div className={`status-bar ${light ? "light" : ""}`}>
+    <div className="status-bar">
       <span className="status-time">11:31</span>
       <div className="status-right">
-        <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor" aria-hidden="true">
+        <svg width="14" height="11" viewBox="0 0 15 12" fill="currentColor" aria-hidden="true">
           <path d="M7.5 2.4c2.3 0 4.4.9 6 2.3l1.3-1.4A10.9 10.9 0 0 0 7.5 0C4.6 0 2 1.2.2 3.3l1.3 1.4c1.6-1.4 3.7-2.3 6-2.3Z" opacity=".95" />
           <path d="M7.5 6.2c1.3 0 2.5.5 3.4 1.3l1.3-1.4a7 7 0 0 0-9.4 0l1.3 1.4c.9-.8 2.1-1.3 3.4-1.3Z" opacity=".95" />
           <circle cx="7.5" cy="10" r="1.7" />
         </svg>
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
+        <svg width="16" height="11" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
           <rect x="0" y="8" width="3" height="4" rx=".8" />
           <rect x="4.5" y="5.5" width="3" height="6.5" rx=".8" />
           <rect x="9" y="3" width="3" height="9" rx=".8" />
@@ -353,7 +427,7 @@ function FeedPin({ pin, onOpen }) {
         <img src={pin.image} alt="" style={{ aspectRatio: `1 / ${pin.h}` }} loading="lazy" />
       </button>
       <div className="pin-meta-row">
-        <Ellipsis size={18} />
+        <PinMark size={17} />
       </div>
     </div>
   );
@@ -367,9 +441,7 @@ function BoardPin({ pin, onOpen }) {
       </button>
       <div className="board-pin-row">
         <span className="board-pin-title">{pin.title}</span>
-        <Svg size={19}>
-          <path d="m12 3.6 2.5 5.4 5.9.6-4.4 4 1.2 5.8L12 16.5l-5.2 2.9L8 13.6l-4.4-4 5.9-.6L12 3.6Z" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
-        </Svg>
+        <Star size={18} />
       </div>
     </div>
   );
@@ -383,15 +455,14 @@ function IdeaPin({ pin, onOpen }) {
         <button className="pin-img-btn idea-img" onClick={() => onOpen(pin)} aria-label={sp ? sp.title : "Open pin"}>
           <img src={pin.image} alt="" style={{ aspectRatio: `1 / ${pin.h}` }} loading="lazy" />
           {pin.deal && <span className="deal-chip">{pin.deal}</span>}
-          {pin.brandOverlay && <span className="brand-overlay">{pin.brandOverlay}</span>}
           <span className="save-fab">
-            <SavePin size={18} />
+            <PinMark size={16} />
           </span>
         </button>
         {sp && (
           <div className="idea-cta">
             <span>{sp.cta}</span>
-            <ArrowUpRight size={18} />
+            <ArrowUpRight size={17} />
           </div>
         )}
       </div>
@@ -399,7 +470,7 @@ function IdeaPin({ pin, onOpen }) {
         <div className="idea-caption">
           <div className="idea-brand-row">
             <span className="idea-brand">{sp.brand}</span>
-            <Ellipsis size={16} />
+            <Ellipsis size={15} />
           </div>
           <span className="idea-title">{sp.title}</span>
           <span className="idea-sponsored">Sponsored</span>
@@ -407,9 +478,27 @@ function IdeaPin({ pin, onOpen }) {
       )}
       {!sp && (
         <div className="pin-meta-row">
-          <Ellipsis size={18} />
+          <PinMark size={17} />
         </div>
       )}
+    </div>
+  );
+}
+
+function ShopCard({ item, onOpen }) {
+  return (
+    <div className="feed-pin">
+      <button className="pin-img-btn" onClick={() => onOpen(item)} aria-label={item.title}>
+        <img src={item.image} alt="" style={{ aspectRatio: `1 / ${item.h}` }} loading="lazy" />
+        <span className="save-fab">
+          <PinMark size={16} />
+        </span>
+      </button>
+      <div className="shop-caption">
+        <span className="shop-price">{item.price}</span>
+        <span className="shop-title">{item.title}</span>
+        <span className="shop-brand">{item.brand}</span>
+      </div>
     </div>
   );
 }
@@ -418,13 +507,13 @@ function BottomNav({ active = "home", onHome }) {
   return (
     <nav className="bottom-nav">
       <button className="nav-btn" onClick={onHome} aria-label="Home">
-        <NavHome size={26} active={active === "home"} />
+        <NavHome size={23} active={active === "home"} />
       </button>
       <button className="nav-btn" aria-label="Search">
-        <NavSearch size={25} />
+        <NavSearch size={22} />
       </button>
       <button className="nav-btn" aria-label="Profile">
-        <NavPerson size={25} />
+        <NavPerson size={22} />
       </button>
     </nav>
   );
@@ -438,7 +527,7 @@ function Story({ story, active, onTap }) {
   return (
     <button className="story" onClick={() => onTap(story)}>
       <span className={`story-tile ${story.type === "home" ? "story-home" : ""}`}>
-        {story.type === "home" ? <PinterestHomeGlyph size={44} /> : <img src={story.image} alt="" />}
+        {story.type === "home" ? <PinterestHomeGlyph size={38} /> : <img src={story.image} alt="" />}
       </span>
       <span className={`story-label ${active ? "active" : ""}`}>{story.label}</span>
     </button>
@@ -451,15 +540,15 @@ function HomeFeed({ onOpenBoard, onOpenPin }) {
       <StatusBar />
       <header className="home-header">
         <div className="home-logo">
-          <PinterestLogo size={30} />
+          <PinterestLogo size={27} />
           <span className="wordmark">Pinterest</span>
         </div>
         <div className="home-header-actions">
           <button className="icon-btn" aria-label="Create">
-            <Plus size={24} />
+            <Plus size={22} />
           </button>
           <button className="icon-btn badge-dot" aria-label="Messages">
-            <Chat size={26} />
+            <Chat size={23} />
           </button>
         </div>
       </header>
@@ -472,7 +561,12 @@ function HomeFeed({ onOpenBoard, onOpenPin }) {
         </div>
 
         <div className="feed-wrap">
-          <Masonry pins={homePins} renderPin={(pin) => <FeedPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
+          <Masonry
+            pins={homeFeedItems}
+            renderPin={(pin) =>
+              pin.sponsored ? <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} /> : <FeedPin key={pin.id} pin={pin} onOpen={onOpenPin} />
+            }
+          />
         </div>
       </div>
 
@@ -485,33 +579,45 @@ function HomeFeed({ onOpenBoard, onOpenPin }) {
    SCREEN: Board landing
    ============================================================================ */
 
-function BoardLanding({ onHome, onOpenSaves, onOpenPin }) {
+function BoardLanding({ board, onHome, onSelectTab, onOpenSaves, onOpenPin }) {
+  const tabs = landingTabsFor(board.id);
+  const saves = board.pins.slice(0, 5);
+  const ideas = ideasFor(board.id);
+
   return (
     <div className="screen">
       <StatusBar />
       <div className="scroll-area with-nav">
         <div className="landing-tabs">
-          {landingTabs.map((t) => (
-            <button key={t} className={`landing-tab ${t === "homeee" ? "active" : ""}`} onClick={t === "Home" ? onHome : undefined}>
-              {t}
-            </button>
-          ))}
+          {tabs.map((t) => {
+            const isHome = t === "Home";
+            const isBoard = boardsById[t] !== undefined;
+            return (
+              <button
+                key={t}
+                className={`landing-tab ${t === board.id ? "active" : ""}`}
+                onClick={isHome ? onHome : isBoard ? () => onSelectTab(t) : undefined}
+              >
+                {t}
+              </button>
+            );
+          })}
         </div>
 
         <div className="landing-head">
-          <h1 className="landing-title">{homeeeBoard.title}</h1>
-          <span className="landing-count">{homeeeBoard.pinCount} Pins</span>
+          <h1 className="landing-title">{board.title}</h1>
+          <span className="landing-count">{board.pinCount} Pins</span>
         </div>
 
         <div className="saves-header">
           <h2>Your saves</h2>
           <button className="saves-arrow" onClick={onOpenSaves} aria-label="Open all saves">
-            <ArrowRight size={22} />
+            <ArrowRight size={20} />
           </button>
         </div>
 
         <div className="saves-carousel">
-          {yourSaves.map((pin) => (
+          {saves.map((pin) => (
             <button key={pin.id} className="saves-thumb" onClick={onOpenSaves} aria-label={pin.title}>
               <img src={pin.image} alt="" />
             </button>
@@ -520,7 +626,7 @@ function BoardLanding({ onHome, onOpenSaves, onOpenPin }) {
 
         <h2 className="ideas-header">More ideas for this board</h2>
         <div className="feed-wrap">
-          <Masonry pins={moreIdeas} renderPin={(pin) => <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
+          <Masonry pins={ideas} renderPin={(pin) => <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
         </div>
       </div>
 
@@ -533,29 +639,12 @@ function BoardLanding({ onHome, onOpenSaves, onOpenPin }) {
    SCREEN: Board view (All saves / More ideas / Shop tabs)
    ============================================================================ */
 
-function ShopCard({ item, onOpen }) {
-  return (
-    <div className="feed-pin">
-      <button className="pin-img-btn" onClick={() => onOpen(item)} aria-label={item.title}>
-        <img src={item.image} alt="" style={{ aspectRatio: `1 / ${item.h}` }} loading="lazy" />
-        <span className="save-fab">
-          <SavePin size={18} />
-        </span>
-      </button>
-      <div className="shop-caption">
-        <span className="shop-price">{item.price}</span>
-        <span className="shop-title">{item.title}</span>
-        <span className="shop-brand">{item.brand}</span>
-      </div>
-    </div>
-  );
-}
-
 const BOARD_TABS = ["More ideas", "All saves", "Shop"];
 
-function BoardView({ onBack, onOpenPin }) {
+function BoardView({ board, onBack, onOpenPin }) {
   const [tab, setTab] = useState("All saves");
-  const board = homeeeBoard;
+  const ideas = ideasFor(board.id);
+  const shop = shopFor(board.id);
 
   return (
     <div className="screen">
@@ -563,19 +652,19 @@ function BoardView({ onBack, onOpenPin }) {
       <header className="board-header">
         <div className="board-header-left">
           <button className="icon-btn" onClick={onBack} aria-label="Back">
-            <ChevronLeft size={24} />
+            <ChevronLeft size={22} />
           </button>
           <span className="board-header-name">{board.title}</span>
         </div>
         <div className="home-header-actions">
           <button className="icon-btn" aria-label="Invite collaborators">
-            <PersonAdd size={24} />
+            <PersonAdd size={22} />
           </button>
           <button className="icon-btn" aria-label="Share board">
-            <Share size={22} />
+            <Share size={20} />
           </button>
           <button className="icon-btn" aria-label="Board options">
-            <Ellipsis size={22} />
+            <Ellipsis size={20} />
           </button>
         </div>
       </header>
@@ -585,7 +674,7 @@ function BoardView({ onBack, onOpenPin }) {
 
         <div className="board-meta">
           <span className="public-pill">
-            <Globe size={17} />
+            <Globe size={15} />
             Public board
           </span>
           <span className="meta-dot">·</span>
@@ -599,7 +688,7 @@ function BoardView({ onBack, onOpenPin }) {
             </span>
           ))}
           <span className="collab-avatar collab-add">
-            <PersonAdd size={19} />
+            <PersonAdd size={17} />
           </span>
         </div>
 
@@ -615,11 +704,11 @@ function BoardView({ onBack, onOpenPin }) {
           <>
             <div className="sort-row">
               <button className="sort-left">
-                <SortArrows size={20} />
+                <SortArrows size={18} />
                 <span>Custom order</span>
               </button>
               <button className="icon-btn" aria-label="Filters">
-                <Sliders size={22} />
+                <Sliders size={20} />
               </button>
             </div>
             <div className="feed-wrap">
@@ -630,32 +719,32 @@ function BoardView({ onBack, onOpenPin }) {
 
         {tab === "More ideas" && (
           <div className="feed-wrap tab-pad">
-            <Masonry pins={moreIdeas} renderPin={(pin) => <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
+            <Masonry pins={ideas} renderPin={(pin) => <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
           </div>
         )}
 
         {tab === "Shop" && (
           <div className="feed-wrap tab-pad">
-            <Masonry pins={shopItems} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
+            <Masonry pins={shop} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
           </div>
         )}
       </div>
 
       <div className="action-bar">
         <button className="action-item">
-          <Organize size={24} />
+          <Organize size={21} />
           <span>Organize</span>
         </button>
         <button className="action-item">
-          <Plus size={24} />
+          <Plus size={21} />
           <span>Add</span>
         </button>
         <button className="action-item">
-          <Sparkle size={24} />
+          <Sparkle size={21} />
           <span>More ideas</span>
         </button>
         <button className="action-item">
-          <Tag size={24} />
+          <Tag size={21} />
           <span>Shop</span>
         </button>
       </div>
@@ -677,10 +766,10 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
         <div className="closeup-hero">
           <img src={pin.image} alt={pin.title || ""} />
           <button className="overlay-btn overlay-left" onClick={onClose} aria-label="Close">
-            <Close size={22} />
+            <Close size={19} />
           </button>
           <button className="overlay-btn overlay-right" aria-label="Pin options">
-            <Ellipsis size={22} />
+            <Ellipsis size={19} />
           </button>
           <div className="chips-row">
             {chips.map((c) => (
@@ -700,11 +789,11 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
                 <button className="pin-img-btn" onClick={() => onOpenPin(r)} aria-label="Open related pin">
                   <img src={r.image} alt="" style={{ aspectRatio: `1 / ${r.h}` }} loading="lazy" />
                   <span className="save-fab">
-                    <SavePin size={18} />
+                    <PinMark size={16} />
                   </span>
                 </button>
                 <div className="pin-meta-row">
-                  <Ellipsis size={18} />
+                  <PinMark size={17} />
                 </div>
               </div>
             )}
@@ -722,6 +811,7 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
 function Phone({ screen, onNavigate }) {
   const [pin, setPin] = useState(null);
   const [returnTo, setReturnTo] = useState("home");
+  const [activeBoardId, setActiveBoardId] = useState("homeee");
 
   const openPin = useCallback(
     (from) => (p) => {
@@ -743,19 +833,32 @@ function Phone({ screen, onNavigate }) {
     }
   }, [screen, pin]);
 
+  const activeBoard = boardsById[activeBoardId] ?? homeeeBoard;
+
   return (
     <div className="phone">
       <div className="phone-screen">
         {screen === "home" && (
           <HomeFeed
             onOpenBoard={(story) => {
-              if (story.id === "homeee") onNavigate("landing");
+              if (boardsById[story.id]) {
+                setActiveBoardId(story.id);
+                onNavigate("landing");
+              }
             }}
             onOpenPin={openPin("home")}
           />
         )}
-        {screen === "landing" && <BoardLanding onHome={() => onNavigate("home")} onOpenSaves={() => onNavigate("board")} onOpenPin={openPin("landing")} />}
-        {screen === "board" && <BoardView onBack={() => onNavigate("landing")} onOpenPin={openPin("board")} />}
+        {screen === "landing" && (
+          <BoardLanding
+            board={activeBoard}
+            onHome={() => onNavigate("home")}
+            onSelectTab={(id) => setActiveBoardId(id)}
+            onOpenSaves={() => onNavigate("board")}
+            onOpenPin={openPin("landing")}
+          />
+        )}
+        {screen === "board" && <BoardView board={activeBoard} onBack={() => onNavigate("landing")} onOpenPin={openPin("board")} />}
         {screen === "pin" && pin && <PinCloseup pin={pin} onClose={() => onNavigate(returnTo)} onOpenPin={(p) => setPin({ ...p, tags: p.tags })} />}
       </div>
     </div>
@@ -768,7 +871,7 @@ function Phone({ screen, onNavigate }) {
    advancing the deck drives the prototype during a walkthrough.
    ============================================================================ */
 
-const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v1";
+const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v2";
 
 const SCREEN_OPTIONS = [
   { value: "", label: "No screen change" },
