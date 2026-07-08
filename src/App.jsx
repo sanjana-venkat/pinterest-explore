@@ -1208,7 +1208,7 @@ function Phone({ screen, onNavigate }) {
    advancing the deck drives the prototype during a walkthrough.
    ============================================================================ */
 
-const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v3";
+const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v4";
 
 const seedSlides = [
   {
@@ -1219,36 +1219,43 @@ const seedSlides = [
     screen: "home",
   },
   {
-    id: "s-ia",
+    id: "s-ia1",
     kicker: "02 · Information architecture",
     title: "",
-    images: ["/IA1.png", "/IA2.png"],
+    images: ["/IA1.png"],
+    screen: "",
+  },
+  {
+    id: "s-ia2",
+    kicker: "03 · Information architecture",
+    title: "",
+    images: ["/IA2.png"],
     screen: "",
   },
   {
     id: "s2",
-    kicker: "03 · Boards as hubs",
+    kicker: "04 · Boards as hubs",
     title: "The board landing page",
     body: "Tapping a board story opens a hub, not a grid: your saves up top, then fresh ideas and shoppable content for that board. Add your observations about why this framing matters here.",
     screen: "landing",
   },
   {
     id: "s3",
-    kicker: "04 · Organization",
+    kicker: "05 · Organization",
     title: "All saves, made actionable",
     body: "The full board view with organize, add, more ideas, and shop actions. This is where contextual board actions will live, like build itinerary, find hotels, and plan outfits for a travel board.",
     screen: "board",
   },
   {
     id: "s4",
-    kicker: "05 · Discovery",
+    kicker: "06 · Discovery",
     title: "Visual search on every pin",
     body: "The closeup pairs the pin with attribute chips and visually similar results, turning inspiration into a query. Note your enhancement ideas for actionability here.",
     screen: "pin",
   },
   {
     id: "s5",
-    kicker: "06 · Proposal",
+    kicker: "07 · Proposal",
     title: "What I would change",
     body: "Placeholder for enhancements: a Shop tab in the home feed, board icons that reflect the stage of a project, and contextual actions that move Pinners from saving to doing.",
     screen: "",
