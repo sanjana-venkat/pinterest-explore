@@ -1109,8 +1109,28 @@ img {
   }
 }
 
-.plan-groups-wrap {
-  padding-top: 4px;
+.plan-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+  padding: 8px 12px 0;
+}
+
+.plan-bento-hero {
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-collage-hero {
+  flex: 1;
+  min-height: 0;
+}
+
+.plan-bento-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .plan-group {
@@ -1131,6 +1151,14 @@ img {
   display: flex;
   gap: 3px;
   height: 78px;
+}
+
+/* The hero's bottom row grows to fill whatever height the hero column got
+   stretched to, so it always ends flush with the paired column below it. */
+.plan-collage-row.plan-collage-row-grow {
+  flex: 1;
+  min-height: 0;
+  height: auto;
 }
 
 .plan-collage-row img {
