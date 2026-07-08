@@ -231,16 +231,13 @@ const BadgeCheck = (p) => (
   </Svg>
 );
 
-// lucide "scan-search" — visual search (Lens-style) affordance on a pin.
-const ScanSearch = (p) => (
-  <Svg {...p}>
-    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-    <circle cx="12" cy="12" r="3" />
-    <path d="m16 16-1.9-1.9" />
-  </Svg>
+// Pinterest gestalt "magnifying-glass-sparkle" — the Lens / visual-search
+// icon: a magnifier with a sparkle. This is a filled 24px glyph, so it's
+// drawn with fill rather than stroke like the outline icons above.
+const ScanSearch = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M19.64.62a5 5 0 0 0 3.74 3.74l.62.14v1l-.62.14a5 5 0 0 0-3.74 3.74l-.14.62h-1l-.14-.62a5 5 0 0 0-3.74-3.74L14 5.5v-1l.62-.14A5 5 0 0 0 18.36.62L18.5 0h1zM11 19a8 8 0 0 0 7.94-7h2.01c-.2 2.01-1 3.85-2.2 5.33l4.46 4.47-1.41 1.41-4.47-4.47a10 10 0 1 1-2.25-16.88l-3 1.21Q11.53 3 11 3a8 8 0 1 0 0 16" />
+  </svg>
 );
 
 /* ============================================================================
@@ -1093,12 +1090,16 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
           {scanning && <span key={`shimmer-${scanKey}`} className="scan-shimmer" />}
           {scanning && (
             <span key={`lens-${scanKey}`} className="scan-lens">
-              <ScanSearch size={16} />
+              <ScanSearch size={18} />
             </span>
           )}
 
-          <button className={`lens-btn ${scanning ? "active" : ""}`} onClick={runScan} aria-label="Search this image">
-            <ScanSearch size={19} />
+          <button
+            className={`overlay-btn lens-btn ${scanning ? "active" : ""}`}
+            onClick={runScan}
+            aria-label="Search this image"
+          >
+            <ScanSearch size={20} />
           </button>
 
           <div className="chips-row">
