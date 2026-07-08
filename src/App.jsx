@@ -1208,7 +1208,7 @@ function Phone({ screen, onNavigate }) {
    advancing the deck drives the prototype during a walkthrough.
    ============================================================================ */
 
-const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v4";
+const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v5";
 
 const seedSlides = [
   {
@@ -1233,32 +1233,52 @@ const seedSlides = [
     screen: "",
   },
   {
-    id: "s2",
-    kicker: "04 · Boards as hubs",
-    title: "The board landing page",
-    body: "Tapping a board story opens a hub, not a grid: your saves up top, then fresh ideas and shoppable content for that board. Add your observations about why this framing matters here.",
-    screen: "landing",
-  },
-  {
-    id: "s3",
-    kicker: "05 · Organization",
-    title: "All saves, made actionable",
-    body: "The full board view with organize, add, more ideas, and shop actions. This is where contextual board actions will live, like build itinerary, find hotels, and plan outfits for a travel board.",
+    id: "s-understand",
+    kicker: "04 · Help me understand",
+    title: "Inspiration with direction",
+    sections: [
+      {
+        heading: "Organizing ideas, finding patterns",
+        bullets: ["Insights from saved pins", "Similar groupings"],
+      },
+      {
+        heading: "Next-stage recommendations, guidance",
+        bullets: ["Infer intent and stage", "Personalized section for the suggested action"],
+      },
+    ],
     screen: "board",
   },
   {
-    id: "s4",
-    kicker: "06 · Discovery",
-    title: "Visual search on every pin",
-    body: "The closeup pairs the pin with attribute chips and visually similar results, turning inspiration into a query. Note your enhancement ideas for actionability here.",
+    id: "s-discover",
+    kicker: "05 · Help me discover",
+    title: "Discovery is click-based, with unclear iconography",
+    sections: [
+      {
+        heading: "It's unclear what happens after a click",
+        bullets: ["Valuable capabilities are hidden for hesitant, non-exploratory users"],
+      },
+      {
+        heading: "Improve content clarity",
+        bullets: ["\u201CVisit site\u201D actually opens search within the image"],
+      },
+    ],
     screen: "pin",
   },
   {
-    id: "s5",
-    kicker: "07 · Proposal",
-    title: "What I would change",
-    body: "Placeholder for enhancements: a Shop tab in the home feed, board icons that reflect the stage of a project, and contextual actions that move Pinners from saving to doing.",
-    screen: "",
+    id: "s-forward",
+    kicker: "06 · Help me move forward",
+    title: "Commerce lacks clarity: shopping vs. sponsored",
+    sections: [
+      {
+        heading: "Clear boundaries",
+        bullets: ["Inspiration vs. Recommendations vs. Shopping vs. Sponsored"],
+      },
+      {
+        heading: "Mental models",
+        bullets: ["Shopping is buried inspiration \u2014 shift the model so Pinterest is for inspo, but also for shop"],
+      },
+    ],
+    screen: "board",
   },
 ];
 
@@ -1362,7 +1382,22 @@ function Deck({ onScreenChange }) {
         ) : (
           <>
             <Editable as="h2" className="slide-title" value={slide.title} onChange={(v) => patch({ title: v })} placeholder="Slide title" />
-            <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+            {slide.sections?.length ? (
+              <div className="slide-sections">
+                {slide.sections.map((sec, si) => (
+                  <div className="slide-section" key={si}>
+                    <span className="slide-section-heading">{sec.heading}</span>
+                    <ul className="slide-section-bullets">
+                      {sec.bullets.map((b, bi) => (
+                        <li key={bi}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+            )}
           </>
         )}
       </article>
