@@ -172,6 +172,49 @@ img {
   outline: none;
 }
 
+/* Structured framework content: sub-heading + bullets, for the "Help me"
+   slides. */
+.slide-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 2px;
+}
+
+.slide-section-heading {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.slide-section-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slide-section-bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4a4a4a;
+}
+
+.slide-section-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
 /* IA diagrams stacked vertically in place of the body text â€” borderless,
    softly rounded, with a little breathing room. The card scrolls internally
    (it's fixed-height) if the pair runs tall. */
