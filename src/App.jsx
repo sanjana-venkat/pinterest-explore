@@ -231,6 +231,18 @@ const BadgeCheck = (p) => (
   </Svg>
 );
 
+// lucide "scan-search" — visual search (Lens-style) affordance on a pin.
+const ScanSearch = (p) => (
+  <Svg {...p}>
+    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="m16 16-1.9-1.9" />
+  </Svg>
+);
+
 /* ============================================================================
    DATA
    All prototype content. Screens read from these consts only, so swapping
@@ -443,6 +455,26 @@ const hawaiiShop = [
   { id: "hs-t2", image: img("shop_towel"), title: "Quick-dry travel towel", brand: "REI", price: "$34", h: 1.35 },
   { id: "hs-t3", image: img("shop_snorkel"), title: "Snorkel mask set", brand: "Amazon", price: "$29", h: 1.05 },
   { id: "hs-t4", image: img("shop_sunhat"), title: "Wide-brim sun hat", brand: "Lack of Color", price: "$79", h: 1.15 },
+];
+
+// "Grab your essentials" — practical trip-prep items, shown as their own
+// section below the main hawaii shop row. Built entirely from images
+// already in the project: the outfit shots work as "shop the look" pins,
+// and towel/snorkel double up since they're genuinely trip essentials.
+const hawaiiEssentials = [
+  { id: "he1", image: img("hawaii_outfit_01"), title: "Packable day dress", brand: "Shop the look", price: "$58", h: 1.33 },
+  { id: "he2", image: img("hawaii_outfit_02"), title: "Breezy aloha shirt", brand: "Shop the look", price: "$42", h: 1.33 },
+  { id: "he3", image: img("shop_towel"), title: "Quick-dry travel towel", brand: "REI", price: "$34", h: 1.35 },
+  { id: "he4", image: img("shop_snorkel"), title: "Snorkel mask set", brand: "Amazon", price: "$29", h: 1.05 },
+];
+
+// "Compare cheaper options" — same items, lower-priced alternatives from
+// different retailers, matching Pinterest's real price-comparison feature.
+const hawaiiCheaper = [
+  { id: "hc1", image: img("shop_tote"), title: "Straw tote, similar style", brand: "Amazon Basics", price: "$22", h: 1.2 },
+  { id: "hc2", image: img("shop_towel"), title: "Microfiber towel, 2-pack", brand: "Walmart", price: "$16", h: 1.35 },
+  { id: "hc3", image: img("shop_snorkel"), title: "Snorkel set, budget", brand: "Decathlon", price: "$18", h: 1.05 },
+  { id: "hc4", image: img("shop_sunhat"), title: "Packable sun hat", brand: "H&M", price: "$25", h: 1.15 },
 ];
 
 function shopFor(boardId) {
@@ -939,8 +971,24 @@ function BoardView({ board, onBack, onOpenPin }) {
         )}
 
         {tab === "Shop" && (
-          <div className="feed-wrap tab-pad">
-            <Masonry pins={shop} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
+          <div className="tab-pad">
+            <div className="feed-wrap">
+              <Masonry pins={shop} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
+            </div>
+
+            {board.id === "hawaii" && (
+              <>
+                <h2 className="plan-section-title">Grab your essentials</h2>
+                <div className="feed-wrap">
+                  <Masonry pins={hawaiiEssentials} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
+                </div>
+
+                <h2 className="plan-section-title">Compare cheaper options</h2>
+                <div className="feed-wrap">
+                  <Masonry pins={hawaiiCheaper} renderPin={(item) => <ShopCard key={item.id} item={item} onOpen={onOpenPin} />} />
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -1012,6 +1060,23 @@ function BoardView({ board, onBack, onOpenPin }) {
 function PinCloseup({ pin, onClose, onOpenPin }) {
   const chips = pin.tags?.length ? pin.tags : ["Warm interiors", "Handmade decor", "Cozy corners"];
   const related = relatedFor(pin);
+  const [scanning, setScanning] = useState(false);
+  const [scanKey, setScanKey] = useState(0);
+
+  // A few seconds after a pin opens, the lens "wakes up": a shimmer sweeps
+  // the photo and a focus ring roams around it, as if visual search were
+  // scouting the image, then settles back into the static button and stops.
+  useEffect(() => {
+    setScanning(false);
+    const wake = setTimeout(() => setScanning(true), 1100);
+    const settle = setTimeout(() => setScanning(false), 1100 + 2200);
+    return () => {
+      clearTimeout(wake);
+      clearTimeout(settle);
+    };
+  }, [pin, scanKey]);
+
+  const runScan = () => setScanKey((k) => k + 1);
 
   return (
     <div className="screen closeup">
@@ -1024,6 +1089,18 @@ function PinCloseup({ pin, onClose, onOpenPin }) {
           <button className="overlay-btn overlay-right" aria-label="Pin options">
             <Ellipsis size={19} />
           </button>
+
+          {scanning && <span key={`shimmer-${scanKey}`} className="scan-shimmer" />}
+          {scanning && (
+            <span key={`lens-${scanKey}`} className="scan-lens">
+              <ScanSearch size={16} />
+            </span>
+          )}
+
+          <button className={`lens-btn ${scanning ? "active" : ""}`} onClick={runScan} aria-label="Search this image">
+            <ScanSearch size={19} />
+          </button>
+
           <div className="chips-row">
             {chips.map((c) => (
               <button key={c} className="vs-chip">
