@@ -353,7 +353,6 @@ const hawaiiPlanGroups = [
   { id: "pg-vibes", title: "Vibes", images: [img("hawaii_03"), img("hawaii_04"), img("real_02")], h: 1.55 },
   { id: "pg-outfits", title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")], h: 1.0 },
   { id: "pg-food", title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02")], h: 1.0 },
-  { id: "pg-photo", title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02")], h: 1.0 },
 ];
 
 // "Booked your hotel yet?" cards in the planned view.
@@ -426,19 +425,19 @@ function ideasFor(boardId) {
 }
 
 const homeeeShop = [
-  { id: "s1", image: img("clean_11"), title: "Rust velvet accent chair", brand: "Target", price: "$249", h: 1.3 },
-  { id: "s2", image: img("clean_14"), title: "Reclaimed oak coffee table", brand: "Artisan Blooms", price: "$189", h: 1.24 },
-  { id: "s3", image: img("clean_06"), title: "Rattan drum pendant", brand: "West Elm", price: "$79", h: 1.02 },
-  { id: "s4", image: img("clean_16"), title: "Hand-painted planter set", brand: "Etsy", price: "$45", h: 1.36 },
-  { id: "s5", image: img("clean_08"), title: "Heirloom Moroccan rug", brand: "Revival", price: "$320", h: 1.1 },
-  { id: "s6", image: img("clean_13"), title: "Block-print cushion covers", brand: "Fabindia", price: "$28", h: 1.0 },
+  { id: "s1", image: img("shop_chair"), title: "Rust velvet accent chair", brand: "Target", price: "$249", h: 1.3 },
+  { id: "s2", image: img("shop_table"), title: "Reclaimed oak coffee table", brand: "Artisan Blooms", price: "$189", h: 1.24 },
+  { id: "s3", image: img("shop_pendant"), title: "Rattan drum pendant", brand: "West Elm", price: "$79", h: 1.02 },
+  { id: "s4", image: img("shop_planter"), title: "Hand-painted planter set", brand: "Etsy", price: "$45", h: 1.36 },
+  { id: "s5", image: img("shop_rug"), title: "Heirloom Moroccan rug", brand: "Revival", price: "$320", h: 1.1 },
+  { id: "s6", image: img("shop_cushions"), title: "Block-print cushion covers", brand: "Fabindia", price: "$28", h: 1.0 },
 ];
 
 const hawaiiShop = [
-  { id: "hs-t1", image: img("hawaii_04"), title: "Woven beach tote", brand: "Anthropologie", price: "$68", h: 1.2 },
-  { id: "hs-t2", image: img("real_03"), title: "Quick-dry travel towel", brand: "REI", price: "$34", h: 1.35 },
-  { id: "hs-t3", image: img("hawaii_01"), title: "Snorkel mask set", brand: "Amazon", price: "$29", h: 1.05 },
-  { id: "hs-t4", image: img("hawaii_03"), title: "Wide-brim sun hat", brand: "Lack of Color", price: "$79", h: 1.15 },
+  { id: "hs-t1", image: img("shop_tote"), title: "Woven beach tote", brand: "Anthropologie", price: "$68", h: 1.2 },
+  { id: "hs-t2", image: img("shop_towel"), title: "Quick-dry travel towel", brand: "REI", price: "$34", h: 1.35 },
+  { id: "hs-t3", image: img("shop_snorkel"), title: "Snorkel mask set", brand: "Amazon", price: "$29", h: 1.05 },
+  { id: "hs-t4", image: img("shop_sunhat"), title: "Wide-brim sun hat", brand: "Lack of Color", price: "$79", h: 1.15 },
 ];
 
 function shopFor(boardId) {
@@ -1065,7 +1064,7 @@ function Phone({ screen, onNavigate }) {
             onOpenBoard={(story) => {
               if (boardsById[story.id]) {
                 setActiveBoardId(story.id);
-                onNavigate("landing");
+                onNavigate(story.id === "hawaii" ? "board" : "landing");
               }
             }}
             onOpenPin={openPin("home")}
@@ -1075,12 +1074,21 @@ function Phone({ screen, onNavigate }) {
           <BoardLanding
             board={activeBoard}
             onHome={() => onNavigate("home")}
-            onSelectTab={(id) => setActiveBoardId(id)}
+            onSelectTab={(id) => {
+              setActiveBoardId(id);
+              if (id === "hawaii") onNavigate("board");
+            }}
             onOpenSaves={() => onNavigate("board")}
             onOpenPin={openPin("landing")}
           />
         )}
-        {screen === "board" && <BoardView board={activeBoard} onBack={() => onNavigate("landing")} onOpenPin={openPin("board")} />}
+        {screen === "board" && (
+          <BoardView
+            board={activeBoard}
+            onBack={() => onNavigate(activeBoardId === "hawaii" ? "home" : "landing")}
+            onOpenPin={openPin("board")}
+          />
+        )}
         {screen === "pin" && pin && <PinCloseup pin={pin} onClose={() => onNavigate(returnTo)} onOpenPin={(p) => setPin({ ...p, tags: p.tags })} />}
       </div>
     </div>
