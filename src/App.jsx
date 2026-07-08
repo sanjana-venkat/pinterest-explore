@@ -223,6 +223,14 @@ const PinMark = (p) => (
   </Svg>
 );
 
+// lucide "badge-check" — verified attribution on featured board cards.
+const BadgeCheck = (p) => (
+  <Svg {...p} fill="#e60023" stroke="#fff" strokeWidth="1.6">
+    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+    <path d="m9 12 2 2 4-4" />
+  </Svg>
+);
+
 /* ============================================================================
    DATA
    All prototype content. Screens read from these consts only, so swapping
@@ -334,13 +342,15 @@ const hawaiiBoard = {
   ],
 };
 
-// Groups the "Plan it" magic organizes the hawaii board into: title + up to
-// four representative pins rendered as a collage tile.
+// Groups the "Plan it" magic organizes the hawaii board into: title + a
+// collage of representative pins. `h` is a rough height weight used to
+// deal groups into two independent masonry columns (2-image collages read
+// shorter than 3-image ones, so this keeps columns from fighting each other).
 const hawaiiPlanGroups = [
-  { title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")] },
-  { title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02"), img("real_03")] },
-  { title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02"), img("hawaii_05")] },
-  { title: "Vibes", images: [img("hawaii_03"), img("hawaii_04"), img("real_02")] },
+  { id: "pg-outfits", title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")], h: 1.0 },
+  { id: "pg-photo", title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02"), img("real_03")], h: 1.55 },
+  { id: "pg-food", title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02"), img("hawaii_05")], h: 1.55 },
+  { id: "pg-vibes", title: "Vibes", images: [img("hawaii_03"), img("hawaii_04"), img("real_02")], h: 1.55 },
 ];
 
 // "Booked your hotel yet?" cards in the planned view.
@@ -351,12 +361,37 @@ const hawaiiHotels = [
   { id: "ht4", image: img("clean_06") },
 ];
 
-// "Don't miss local pinners' ideas" grid in the planned view.
-const hawaiiLocalIdeas = [
-  { id: "li1", image: img("hawaii_05"), h: 1.2 },
-  { id: "li2", image: img("hawaii_02"), h: 1.35 },
-  { id: "li3", image: img("real_03"), h: 1.28 },
-  { id: "li4", image: img("hawaii_04"), h: 1.1 },
+// "Don't miss local pinners' ideas" — a horizontal carousel of featured
+// board cards (main image + two stacked sub images), matching Pinterest's
+// "Explore featured boards" cards.
+const hawaiiFeaturedBoards = [
+  {
+    id: "fb1",
+    title: "Ideas for your Hawaii escape",
+    attribution: "Pinterest",
+    verified: true,
+    meta: "101 Pins · 6d",
+    main: img("hawaii_04"),
+    subs: [img("hawaii_outfit_01"), img("real_02")],
+  },
+  {
+    id: "fb2",
+    title: "Island eats worth the trip",
+    attribution: "Local Pinners",
+    verified: false,
+    meta: "64 Pins · 3mo",
+    main: img("hawaii_food_01"),
+    subs: [img("hawaii_food_02"), img("hawaii_05")],
+  },
+  {
+    id: "fb3",
+    title: "Golden hour photo spots",
+    attribution: "Travel",
+    verified: true,
+    meta: "49 Pins · 7mo",
+    main: img("hawaii_photo_01"),
+    subs: [img("real_03"), img("hawaii_06")],
+  },
 ];
 
 const boardsById = { homeee: homeeeBoard, hawaii: hawaiiBoard };
@@ -712,6 +747,29 @@ function PlanCollage({ group, onOpen }) {
   );
 }
 
+// "Explore featured boards"-style card: one main image plus two stacked
+// sub images, a bold title, attribution row with optional verified badge,
+// and a muted pin-count/time line.
+function FeaturedBoardCard({ board }) {
+  return (
+    <button className="featured-card">
+      <div className="featured-collage">
+        <img className="featured-main" src={board.main} alt="" />
+        <div className="featured-subs">
+          <img src={board.subs[0]} alt="" />
+          <img src={board.subs[1]} alt="" />
+        </div>
+      </div>
+      <h4 className="featured-title">{board.title}</h4>
+      <div className="featured-attribution">
+        <span>{board.attribution}</span>
+        {board.verified && <BadgeCheck size={15} />}
+      </div>
+      <span className="featured-meta">{board.meta}</span>
+    </button>
+  );
+}
+
 function BoardView({ board, onBack, onOpenPin }) {
   const [tab, setTab] = useState("All saves");
   const [planned, setPlanned] = useState(false);
@@ -825,10 +883,12 @@ function BoardView({ board, onBack, onOpenPin }) {
               </button>
             </div>
 
-            <div className="plan-groups">
-              {hawaiiPlanGroups.map((g) => (
-                <PlanCollage key={g.title} group={g} onOpen={() => {}} />
-              ))}
+            <div className="feed-wrap plan-groups-wrap">
+              <Masonry
+                pins={hawaiiPlanGroups}
+                gap={16}
+                renderPin={(g) => <PlanCollage key={g.id} group={g} onOpen={() => {}} />}
+              />
             </div>
 
             <h2 className="plan-section-title">Booked your hotel yet?</h2>
@@ -845,20 +905,10 @@ function BoardView({ board, onBack, onOpenPin }) {
             </div>
 
             <h2 className="plan-section-title">Don't miss local pinners' ideas</h2>
-            <div className="feed-wrap">
-              <Masonry
-                pins={hawaiiLocalIdeas}
-                renderPin={(r) => (
-                  <div className="feed-pin" key={r.id}>
-                    <button className="pin-img-btn" onClick={() => onOpenPin(r)} aria-label="Open pin">
-                      <img src={r.image} alt="" style={{ aspectRatio: `1 / ${r.h}` }} loading="lazy" />
-                      <span className="save-fab">
-                        <Ellipsis size={15} />
-                      </span>
-                    </button>
-                  </div>
-                )}
-              />
+            <div className="featured-carousel">
+              {hawaiiFeaturedBoards.map((b) => (
+                <FeaturedBoardCard key={b.id} board={b} />
+              ))}
             </div>
           </div>
         )}
@@ -891,10 +941,6 @@ function BoardView({ board, onBack, onOpenPin }) {
         <button className="action-item">
           <Plus size={21} />
           <span>Add</span>
-        </button>
-        <button className="action-item">
-          <Sparkle size={21} />
-          <span>More ideas</span>
         </button>
         <button className="action-item">
           <Tag size={21} />
