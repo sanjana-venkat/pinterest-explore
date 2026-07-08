@@ -172,6 +172,22 @@ img {
   outline: none;
 }
 
+/* Two IA diagrams stacked vertically in place of the body text. The card
+   scrolls internally (it's fixed-height) if the pair runs tall. */
+.slide-images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slide-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+  background: #fff;
+}
+
 .slide-kicker:focus,
 .slide-title:focus,
 .slide-body:focus {
