@@ -1208,7 +1208,7 @@ function Phone({ screen, onNavigate }) {
    advancing the deck drives the prototype during a walkthrough.
    ============================================================================ */
 
-const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v2";
+const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v3";
 
 const SCREEN_OPTIONS = [
   { value: "", label: "No screen change" },
@@ -1227,29 +1227,36 @@ const seedSlides = [
     screen: "home",
   },
   {
+    id: "s-ia",
+    kicker: "02 · Information architecture",
+    title: "How the experience is structured",
+    images: ["/IA1.png", "/IA2.png"],
+    screen: "",
+  },
+  {
     id: "s2",
-    kicker: "02 · Boards as hubs",
+    kicker: "03 · Boards as hubs",
     title: "The board landing page",
     body: "Tapping a board story opens a hub, not a grid: your saves up top, then fresh ideas and shoppable content for that board. Add your observations about why this framing matters here.",
     screen: "landing",
   },
   {
     id: "s3",
-    kicker: "03 · Organization",
+    kicker: "04 · Organization",
     title: "All saves, made actionable",
     body: "The full board view with organize, add, more ideas, and shop actions. This is where contextual board actions will live, like build itinerary, find hotels, and plan outfits for a travel board.",
     screen: "board",
   },
   {
     id: "s4",
-    kicker: "04 · Discovery",
+    kicker: "05 · Discovery",
     title: "Visual search on every pin",
     body: "The closeup pairs the pin with attribute chips and visually similar results, turning inspiration into a query. Note your enhancement ideas for actionability here.",
     screen: "pin",
   },
   {
     id: "s5",
-    kicker: "05 · Proposal",
+    kicker: "06 · Proposal",
     title: "What I would change",
     body: "Placeholder for enhancements: a Shop tab in the home feed, board icons that reflect the stage of a project, and contextual actions that move Pinners from saving to doing.",
     screen: "",
@@ -1350,7 +1357,15 @@ function Deck({ onScreenChange }) {
       <article className="slide-card" key={slide.id}>
         <Editable className="slide-kicker" value={slide.kicker} onChange={(v) => patch({ kicker: v })} placeholder="Kicker" />
         <Editable as="h2" className="slide-title" value={slide.title} onChange={(v) => patch({ title: v })} placeholder="Slide title" />
-        <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+        {slide.images?.length ? (
+          <div className="slide-images">
+            {slide.images.map((src) => (
+              <img key={src} src={src} alt="" />
+            ))}
+          </div>
+        ) : (
+          <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+        )}
 
         <div className="slide-link-row">
           <label className="slide-link-label" htmlFor="screen-link">
