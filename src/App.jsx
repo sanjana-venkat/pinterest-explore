@@ -207,6 +207,22 @@ const Reset = (p) => (
   </Svg>
 );
 
+// lucide "wand-sparkles" — the Plan it action on plannable boards.
+const WandSparkles = (p) => (
+  <Svg {...p}>
+    <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" />
+    <path d="m14 7 3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9" />
+  </Svg>
+);
+
+// lucide "pin" — save overlay on regular home-feed tiles.
+const PinMark = (p) => (
+  <Svg {...p}>
+    <path d="M12 17v5" />
+    <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z" />
+  </Svg>
+);
+
 /* ============================================================================
    DATA
    All prototype content. Screens read from these consts only, so swapping
@@ -226,26 +242,22 @@ const stories = [
   { id: "mehendi", label: "mehendi", image: img("clean_07") },
 ];
 
-const FILLER_TABS = ["test", "abi", "mehendi", "blouse"];
+// One consistent tab strip on the board landing page — hawaii is always
+// visible regardless of which board you're on.
+const LANDING_TABS = ["Home", "hawaii", "test", "abi", "homeee", "mehendi", "blouse"];
 
-// The tab strip on the board landing page always keeps the active board
-// visible alongside the filler tabs seen in the recording.
-function landingTabsFor(boardId) {
-  if (boardId === "hawaii") return ["Home", "hawaii", "test", "abi", "homeee", "mehendi", "blouse"];
-  return ["Home", "test", "abi", "homeee", "mehendi", "blouse"];
-}
-
-// Regular pins in the home feed.
+// Regular pins in the home feed. `shoppable: true` swaps the save-pin
+// overlay for a shop tag so product pins read differently at a glance.
 const homePins = [
   { id: "h1", image: img("clean_04"), h: 1.32 },
   { id: "h2", image: img("clean_03"), h: 1.28 },
   { id: "h3", image: img("clean_10"), h: 1.3 },
   { id: "h4", image: img("clean_07"), h: 1.45 },
-  { id: "h5", image: img("clean_12"), h: 1.1 },
+  { id: "h5", image: img("clean_12"), h: 1.1, shoppable: true },
   { id: "h6", image: img("clean_02"), h: 0.86 },
-  { id: "h7", image: img("clean_08"), h: 1.25 },
+  { id: "h7", image: img("clean_08"), h: 1.25, shoppable: true },
   { id: "h8", image: img("clean_16"), h: 1.4 },
-  { id: "h9", image: img("clean_06"), h: 1.05 },
+  { id: "h9", image: img("clean_06"), h: 1.05, shoppable: true },
   { id: "h10", image: img("clean_01"), h: 1.3 },
 ];
 
@@ -300,20 +312,52 @@ const homeeeBoard = {
 const hawaiiBoard = {
   id: "hawaii",
   title: "hawaii",
-  pinCount: 9,
+  pinCount: 15,
+  plannable: true,
   collaborators: [{ initial: "S", tint: "#d9defc" }],
   pins: [
-    { id: "hw1", image: img("real_01"), title: "Oahu palms", h: 1.36, tags: ["Palms", "Golden hour"] },
-    { id: "hw2", image: img("real_02"), title: "Nā Pali coast", h: 1.02, tags: ["Coastline", "Hiking"] },
-    { id: "hw3", image: img("real_03"), title: "Akaka Falls", h: 1.4, tags: ["Waterfall", "Rainforest"] },
-    { id: "hw4", image: img("hawaii_01"), title: "Lanikai morning", h: 1.1, tags: ["Beach", "Kayak"] },
-    { id: "hw5", image: img("hawaii_02"), title: "Road to Hana", h: 1.28, tags: ["Road trip"] },
-    { id: "hw6", image: img("hawaii_03"), title: "Maui sunset", h: 1.0, tags: ["Sunset"] },
-    { id: "hw7", image: img("hawaii_04"), title: "Black sand beach", h: 1.32, tags: ["Beach"] },
-    { id: "hw8", image: img("hawaii_05"), title: "Poke crawl", h: 1.06, tags: ["Food"] },
-    { id: "hw9", image: img("hawaii_06"), title: "Surf check", h: 1.24, tags: ["Surf"] },
+    { id: "hw1", image: img("real_01"), title: "Oahu palms", h: 1.36, tags: ["Palms", "Golden hour"], group: "Vibes" },
+    { id: "hw2", image: img("real_02"), title: "Nā Pali coast", h: 1.02, tags: ["Coastline", "Hiking"], group: "Vibes" },
+    { id: "hw3", image: img("real_03"), title: "Akaka Falls", h: 1.4, tags: ["Waterfall", "Rainforest"], group: "Photo ideas" },
+    { id: "hw4", image: img("hawaii_01"), title: "Lanikai morning", h: 1.1, tags: ["Beach", "Kayak"], group: "Vibes" },
+    { id: "hw5", image: img("hawaii_02"), title: "Road to Hana", h: 1.28, tags: ["Road trip"], group: "Photo ideas" },
+    { id: "hw6", image: img("hawaii_03"), title: "Maui sunset", h: 1.0, tags: ["Sunset"], group: "Vibes" },
+    { id: "hw7", image: img("hawaii_04"), title: "Black sand beach", h: 1.32, tags: ["Beach"], group: "Vibes" },
+    { id: "hw8", image: img("hawaii_05"), title: "Poke crawl", h: 1.06, tags: ["Food"], group: "Local food" },
+    { id: "hw9", image: img("hawaii_06"), title: "Surf check", h: 1.24, tags: ["Surf"], group: "Photo ideas" },
+    { id: "hw10", image: img("hawaii_outfit_01"), title: "Island day fit", h: 1.33, tags: ["Sundress", "Straw tote"], group: "Outfits" },
+    { id: "hw11", image: img("hawaii_outfit_02"), title: "Luau night look", h: 1.33, tags: ["Aloha shirt", "Slippers"], group: "Outfits" },
+    { id: "hw12", image: img("hawaii_food_01"), title: "Poke bowl hitlist", h: 1.33, tags: ["Ahi", "Shoyu"], group: "Local food" },
+    { id: "hw13", image: img("hawaii_food_02"), title: "Shave ice ranking", h: 1.33, tags: ["Rainbow", "Li hing"], group: "Local food" },
+    { id: "hw14", image: img("hawaii_photo_01"), title: "Golden hour shots", h: 1.33, tags: ["Polaroid", "Sunset"], group: "Photo ideas" },
+    { id: "hw15", image: img("hawaii_photo_02"), title: "Shot list: cliffs + lagoon", h: 1.33, tags: ["Shot list"], group: "Photo ideas" },
   ],
 };
+
+// Groups the "Plan it" magic organizes the hawaii board into: title + up to
+// four representative pins rendered as a collage tile.
+const hawaiiPlanGroups = [
+  { title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")] },
+  { title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02"), img("real_03")] },
+  { title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02"), img("hawaii_05")] },
+  { title: "Vibes", images: [img("hawaii_03"), img("hawaii_04"), img("real_02")] },
+];
+
+// "Booked your hotel yet?" cards in the planned view.
+const hawaiiHotels = [
+  { id: "ht1", image: img("hawaii_01") },
+  { id: "ht2", image: img("clean_08") },
+  { id: "ht3", image: img("hawaii_06") },
+  { id: "ht4", image: img("clean_06") },
+];
+
+// "Don't miss local pinners' ideas" grid in the planned view.
+const hawaiiLocalIdeas = [
+  { id: "li1", image: img("hawaii_05"), h: 1.2 },
+  { id: "li2", image: img("hawaii_02"), h: 1.35 },
+  { id: "li3", image: img("real_03"), h: 1.28 },
+  { id: "li4", image: img("hawaii_04"), h: 1.1 },
+];
 
 const boardsById = { homeee: homeeeBoard, hawaii: hawaiiBoard };
 
@@ -433,6 +477,7 @@ function FeedPin({ pin, onOpen }) {
     <div className="feed-pin">
       <button className="pin-img-btn" onClick={() => onOpen(pin)} aria-label="Open pin">
         <img src={pin.image} alt="" style={{ aspectRatio: `1 / ${pin.h}` }} loading="lazy" />
+        <span className="save-fab">{pin.shoppable ? <Tag size={15} /> : <PinMark size={15} />}</span>
       </button>
       <div className="pin-meta-row">
         <Ellipsis size={16} />
@@ -583,7 +628,7 @@ function HomeFeed({ onOpenBoard, onOpenPin }) {
    ============================================================================ */
 
 function BoardLanding({ board, onHome, onSelectTab, onOpenSaves, onOpenPin }) {
-  const tabs = landingTabsFor(board.id);
+  const tabs = LANDING_TABS;
   const saves = board.pins.slice(0, 5);
   const ideas = ideasFor(board.id);
 
@@ -644,10 +689,58 @@ function BoardLanding({ board, onHome, onSelectTab, onOpenSaves, onOpenPin }) {
 
 const BOARD_TABS = ["More ideas", "All saves", "Shop"];
 
+// Collage tile for a planned group: 2 images side by side, a third spans the
+// bottom, a fourth splits it — matching the reference design.
+function PlanCollage({ group, onOpen }) {
+  const [a, b, c, d] = group.images;
+  return (
+    <div className="plan-group">
+      <button className="plan-collage" onClick={onOpen} aria-label={group.title}>
+        <div className="plan-collage-row">
+          <img src={a} alt="" />
+          {b && <img src={b} alt="" />}
+        </div>
+        {c && (
+          <div className="plan-collage-row">
+            <img src={c} alt="" />
+            {d && <img src={d} alt="" />}
+          </div>
+        )}
+      </button>
+      <span className="plan-group-title">{group.title}</span>
+    </div>
+  );
+}
+
 function BoardView({ board, onBack, onOpenPin }) {
   const [tab, setTab] = useState("All saves");
+  const [planned, setPlanned] = useState(false);
+  const [bursting, setBursting] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const sheetShownRef = useRef(false);
   const ideas = ideasFor(board.id);
   const shop = shopFor(board.id);
+
+  // Solution B: a proactive bottom sheet invites planning shortly after the
+  // board opens (once per visit), as an alternative to the Plan it button.
+  useEffect(() => {
+    if (!board.plannable || planned || sheetShownRef.current) return;
+    const t = setTimeout(() => {
+      sheetShownRef.current = true;
+      setSheetOpen(true);
+    }, 900);
+    return () => clearTimeout(t);
+  }, [board.plannable, planned]);
+
+  // Solution A: Plan it — red burst spreads from the action bar, fades, and
+  // the grid reorganizes into groups mid-burst.
+  const runPlan = () => {
+    if (!board.plannable || bursting) return;
+    setSheetOpen(false);
+    setBursting(true);
+    setTimeout(() => setPlanned(true), 420);
+    setTimeout(() => setBursting(false), 1000);
+  };
 
   return (
     <div className="screen">
@@ -703,7 +796,7 @@ function BoardView({ board, onBack, onOpenPin }) {
           ))}
         </div>
 
-        {tab === "All saves" && (
+        {tab === "All saves" && !planned && (
           <>
             <div className="sort-row">
               <button className="sort-left">
@@ -720,6 +813,56 @@ function BoardView({ board, onBack, onOpenPin }) {
           </>
         )}
 
+        {tab === "All saves" && planned && (
+          <div className="planned-view">
+            <div className="sort-row">
+              <button className="sort-left">
+                <SortArrows size={18} />
+                <span>Sorted by planner</span>
+              </button>
+              <button className="icon-btn" aria-label="Filters">
+                <Sliders size={20} />
+              </button>
+            </div>
+
+            <div className="plan-groups">
+              {hawaiiPlanGroups.map((g) => (
+                <PlanCollage key={g.title} group={g} onOpen={() => {}} />
+              ))}
+            </div>
+
+            <h2 className="plan-section-title">Booked your hotel yet?</h2>
+            <div className="hotel-row">
+              {hawaiiHotels.map((h) => (
+                <div key={h.id} className="hotel-card">
+                  <img src={h.image} alt="" />
+                  <span className="hotel-cta">
+                    See rooms
+                    <ArrowUpRight size={13} />
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <h2 className="plan-section-title">Don't miss local pinners' ideas</h2>
+            <div className="feed-wrap">
+              <Masonry
+                pins={hawaiiLocalIdeas}
+                renderPin={(r) => (
+                  <div className="feed-pin" key={r.id}>
+                    <button className="pin-img-btn" onClick={() => onOpenPin(r)} aria-label="Open pin">
+                      <img src={r.image} alt="" style={{ aspectRatio: `1 / ${r.h}` }} loading="lazy" />
+                      <span className="save-fab">
+                        <Ellipsis size={15} />
+                      </span>
+                    </button>
+                  </div>
+                )}
+              />
+            </div>
+          </div>
+        )}
+
         {tab === "More ideas" && (
           <div className="feed-wrap tab-pad">
             <Masonry pins={ideas} renderPin={(pin) => <IdeaPin key={pin.id} pin={pin} onOpen={onOpenPin} />} />
@@ -734,10 +877,17 @@ function BoardView({ board, onBack, onOpenPin }) {
       </div>
 
       <div className="action-bar">
-        <button className="action-item">
-          <Organize size={21} />
-          <span>Organize</span>
-        </button>
+        {board.plannable ? (
+          <button className="action-item" onClick={runPlan}>
+            <WandSparkles size={21} />
+            <span>Plan it</span>
+          </button>
+        ) : (
+          <button className="action-item">
+            <Organize size={21} />
+            <span>Organize</span>
+          </button>
+        )}
         <button className="action-item">
           <Plus size={21} />
           <span>Add</span>
@@ -751,6 +901,29 @@ function BoardView({ board, onBack, onOpenPin }) {
           <span>Shop</span>
         </button>
       </div>
+
+      {bursting && <span className="magic-burst" />}
+
+      {sheetOpen && (
+        <div className="sheet-scrim" onClick={() => setSheetOpen(false)}>
+          <div className="plan-sheet" onClick={(e) => e.stopPropagation()}>
+            <span className="sheet-grabber" />
+            <h3 className="plan-sheet-title">Ready to turn imagination into reality?</h3>
+            <p className="plan-sheet-body">
+              This board is full of ideas. Let Pinterest group your saves into outfits, photo spots, local food and
+              vibes — and turn them into a plan you can actually book, pack and shoot.
+            </p>
+            <div className="plan-sheet-actions">
+              <button className="plan-sheet-cta" onClick={runPlan}>
+                Plan this board
+              </button>
+              <button className="plan-sheet-later" onClick={() => setSheetOpen(false)}>
+                Maybe later
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
