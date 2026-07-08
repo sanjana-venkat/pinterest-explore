@@ -1210,14 +1210,6 @@ function Phone({ screen, onNavigate }) {
 
 const DECK_STORAGE_KEY = "pinterest-walkthrough-deck-v3";
 
-const SCREEN_OPTIONS = [
-  { value: "", label: "No screen change" },
-  { value: "home", label: "Home feed" },
-  { value: "landing", label: "Board landing" },
-  { value: "board", label: "Board · All saves" },
-  { value: "pin", label: "Pin closeup" },
-];
-
 const seedSlides = [
   {
     id: "s1",
@@ -1229,7 +1221,7 @@ const seedSlides = [
   {
     id: "s-ia",
     kicker: "02 · Information architecture",
-    title: "How the experience is structured",
+    title: "",
     images: ["/IA1.png", "/IA2.png"],
     screen: "",
   },
@@ -1356,7 +1348,6 @@ function Deck({ onScreenChange }) {
 
       <article className="slide-card" key={slide.id}>
         <Editable className="slide-kicker" value={slide.kicker} onChange={(v) => patch({ kicker: v })} placeholder="Kicker" />
-        <Editable as="h2" className="slide-title" value={slide.title} onChange={(v) => patch({ title: v })} placeholder="Slide title" />
         {slide.images?.length ? (
           <div className="slide-images">
             {slide.images.map((src) => (
@@ -1364,29 +1355,11 @@ function Deck({ onScreenChange }) {
             ))}
           </div>
         ) : (
-          <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+          <>
+            <Editable as="h2" className="slide-title" value={slide.title} onChange={(v) => patch({ title: v })} placeholder="Slide title" />
+            <Editable className="slide-body" value={slide.body} onChange={(v) => patch({ body: v })} placeholder="Write your design rationale…" />
+          </>
         )}
-
-        <div className="slide-link-row">
-          <label className="slide-link-label" htmlFor="screen-link">
-            Phone shows
-          </label>
-          <select
-            id="screen-link"
-            className="slide-link-select"
-            value={slide.screen}
-            onChange={(e) => {
-              patch({ screen: e.target.value });
-              if (e.target.value) onScreenChange(e.target.value);
-            }}
-          >
-            {SCREEN_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </div>
       </article>
 
       <div className="deck-dots">
