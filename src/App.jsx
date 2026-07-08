@@ -344,13 +344,16 @@ const hawaiiBoard = {
 
 // Groups the "Plan it" magic organizes the hawaii board into: title + a
 // collage of representative pins. `h` is a rough height weight used to
-// deal groups into two independent masonry columns (2-image collages read
-// shorter than 3-image ones, so this keeps columns from fighting each other).
+// deal groups into two independent masonry columns. One hero group (3
+// images, bento: 2 across the top + 1 full-width below) plus three paired
+// groups (2 images side by side) — ordered so the masonry naturally lands
+// the hero on one side and the pairs stacked on the other, matching the
+// reference bento layout.
 const hawaiiPlanGroups = [
-  { id: "pg-outfits", title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")], h: 1.0 },
-  { id: "pg-photo", title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02"), img("real_03")], h: 1.55 },
-  { id: "pg-food", title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02"), img("hawaii_05")], h: 1.55 },
   { id: "pg-vibes", title: "Vibes", images: [img("hawaii_03"), img("hawaii_04"), img("real_02")], h: 1.55 },
+  { id: "pg-outfits", title: "Outfits", images: [img("hawaii_outfit_01"), img("hawaii_outfit_02")], h: 1.0 },
+  { id: "pg-food", title: "Local food", images: [img("hawaii_food_01"), img("hawaii_food_02")], h: 1.0 },
+  { id: "pg-photo", title: "Photo ideas", images: [img("hawaii_photo_01"), img("hawaii_photo_02")], h: 1.0 },
 ];
 
 // "Booked your hotel yet?" cards in the planned view.
